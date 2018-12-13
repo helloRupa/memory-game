@@ -2,7 +2,7 @@
 # Each card tracks whether it is hidden or showing, and acts accordingly
 
 class Card
-  attr_reader :face_up
+  attr_reader :face_up, :value
 
   def initialize(value)
     @value = value
