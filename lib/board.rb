@@ -4,7 +4,7 @@
 require_relative './card.rb'
 
 class Board
-  CARDS = %w[1 2 3 4 5 6 7 8 9 10 J Q K A].product(%w[C S D H]).map(&:join)
+  CARDS = %w[2 3 4 5 6 7 8 9 10 J Q K A].product(%w[C S D H]).map(&:join)
   SPACE_BETWEEN_CARDS = 5
 
   def initialize(size)
@@ -65,8 +65,15 @@ class Board
       puts
     end
   end
+
+  # Swap x, y to match traditional grids
+  def [](x, y)
+    @board[y][x]
+  end
 end
 
 if $PROGRAM_NAME == __FILE__
   board = Board.new(3)
+  board[3, 0].show
+  board.render
 end
