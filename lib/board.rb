@@ -5,11 +5,13 @@ require_relative './card.rb'
 
 class Board
   CARDS = %w[1 2 3 4 5 6 7 8 9 10 J Q K A].product(%w[C S D H]).map(&:join)
+  SPACE_BETWEEN_CARDS = 5
 
   def initialize(size)
     @size = valid_size(size)
-    @all_cards = []
+    @board = []
     populate
+    render
   end
 
   def valid_size(size)
@@ -30,11 +32,37 @@ class Board
     cards = choose_cards
     row = []
     cards.each_with_index do |card, idx|
-      row << card
+      row << Card.new(card)
       if ((idx + 1) % @size).zero?
-        @all_cards << row
+        @board << row
         row = []
       end
+    end
+  end
+
+  def print_header_row
+    header = (0...@size).to_a
+    puts '   ' + header.join('    ')
+  end
+
+  def print_card_row(row)
+    @board[row].each do |card|
+      if card.face_up
+        print card.value
+        spaces = SPACE_BETWEEN_CARDS - card.value.length
+        print ' ' * spaces
+      else
+        print ' ' * SPACE_BETWEEN_CARDS
+      end
+    end
+  end
+
+  def render
+    print_header_row
+    @size.times do |row|
+      print "#{row} "
+      print_card_row(row)
+      puts
     end
   end
 end
