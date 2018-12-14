@@ -6,12 +6,12 @@ require_relative './card.rb'
 class Board
   CARDS = %w[2 3 4 5 6 7 8 9 10 J Q K A].product(%w[C S D H]).map(&:join)
   SPACE_BETWEEN_CARDS = 5
+  attr_accessor :board
 
   def initialize(size)
     @size = valid_size(size)
     @board = []
     populate
-    render
   end
 
   def valid_size(size)
@@ -70,10 +70,20 @@ class Board
   def [](x, y)
     @board[y][x]
   end
+
+  def board_complete?
+    @board.all? do |row|
+      row.all?(&:face_up)
+    end
+  end
 end
 
 if $PROGRAM_NAME == __FILE__
   board = Board.new(3)
   board[3, 0].show
+  board.board.each do |row|
+    row.each(&:show)
+  end
   board.render
+  p board.board_complete?
 end
