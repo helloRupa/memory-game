@@ -63,6 +63,7 @@ class Game
   end
 
   def show_guess
+    @player.receive_board(@board)
     process_guess
     clear_screen
     show_board
@@ -106,5 +107,6 @@ class Game
 end
 
 if $PROGRAM_NAME == __FILE__
-  Game.new(4, Player)
+  # Game.new(4, Player)
+  Game.new(4, ComputerPlayer)
 end
