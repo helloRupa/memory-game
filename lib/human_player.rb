@@ -10,6 +10,8 @@ class Player
     valid_guess(gets.chomp)
   end
 
+  private
+
   def valid_guess(guess)
     x, y = format_guess(guess)
     until (0...@size).cover?(x) && (0...@size).cover?(y)
