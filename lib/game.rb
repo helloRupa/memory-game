@@ -42,6 +42,29 @@ class Game
     process_guess
     show_board
     process_guess
+    show_board
+    process_pair
+  end
+
+  def process_pair
+    if match?
+      puts 'Good work! You found a match'
+    else
+      puts 'Too bad, no match this time'
+      hide_pair
+    end
+  end
+
+  def hide_pair
+    x1, y1 = @guess_pair[0]
+    x2, y2 = @guess_pair[1]
+    @board[x1, y1].hide == @board[x2, y2].hide
+  end
+
+  def match?
+    x1, y1 = @guess_pair[0]
+    x2, y2 = @guess_pair[1]
+    @board[x1, y1].value == @board[x2, y2].value
   end
 
   def process_guess
