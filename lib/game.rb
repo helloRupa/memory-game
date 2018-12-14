@@ -13,6 +13,8 @@ class Game
     play
   end
 
+  private
+
   def clear_screen
     system('clear')
   end
@@ -63,15 +65,23 @@ class Game
   end
 
   def show_guess
-    @player.receive_board(@board)
+    share_board_with_ai_player
     process_guess
     clear_screen
     show_board
   end
 
+  def share_board_with_ai_player
+    @player.receive_board(@board)
+  end
+
+  def pair_match?
+    @board.match?(@guess_pair)
+  end
+
   def process_guess_pair
     puts
-    if @board.match?(@guess_pair)
+    if pair_match?
       puts 'Good work! You found a match'
     else
       puts 'Too bad, no match this time'
@@ -82,7 +92,8 @@ class Game
   def hide_pair
     x1, y1 = @guess_pair[0]
     x2, y2 = @guess_pair[1]
-    @board[x1, y1].hide == @board[x2, y2].hide
+    @board[x1, y1].hide
+    @board[x2, y2].hide
   end
 
   def process_guess
