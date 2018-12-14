@@ -2,6 +2,7 @@
 
 require_relative './board.rb'
 require_relative './human_player.rb'
+require_relative './computer_player.rb'
 
 class Game
   def initialize(size, player)
@@ -12,6 +13,10 @@ class Game
     play
   end
 
+  def clear_screen
+    system('clear')
+  end
+
   def welcome_message
     puts
     puts 'Welcome to the Match 2 Memory Game!'
@@ -20,9 +25,9 @@ class Game
   end
 
   def welcome
-    # system('clear')
+    clear_screen
     welcome_message
-    sleep(2)
+    pause
   end
 
   def show_board
@@ -30,24 +35,42 @@ class Game
   end
 
   def play
-    # system('clear')
     until win?
+      clear_screen
       show_board
+      puts
       turn
     end
+    win_message
+    pause
+  end
+
+  def win_message
+    puts 'You found all the matches! You win!'
+  end
+
+  def pause
+    sleep(2)
   end
 
   def turn
     @guess_pair = []
-    process_guess
-    show_board
-    process_guess
-    show_board
-    process_pair
+    show_guess
+    puts
+    show_guess
+    process_guess_pair
+    pause
   end
 
-  def process_pair
-    if match?
+  def show_guess
+    process_guess
+    clear_screen
+    show_board
+  end
+
+  def process_guess_pair
+    puts
+    if @board.match?(@guess_pair)
       puts 'Good work! You found a match'
     else
       puts 'Too bad, no match this time'
@@ -59,12 +82,6 @@ class Game
     x1, y1 = @guess_pair[0]
     x2, y2 = @guess_pair[1]
     @board[x1, y1].hide == @board[x2, y2].hide
-  end
-
-  def match?
-    x1, y1 = @guess_pair[0]
-    x2, y2 = @guess_pair[1]
-    @board[x1, y1].value == @board[x2, y2].value
   end
 
   def process_guess

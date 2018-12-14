@@ -66,6 +66,12 @@ class Board
     end
   end
 
+  def match?(guess_pair)
+    x1, y1 = guess_pair[0]
+    x2, y2 = guess_pair[1]
+    self[x1, y1].value == self[x2, y2].value
+  end
+
   # Swap x, y to match traditional grids
   def [](x, y)
     @board[y][x]
