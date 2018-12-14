@@ -18,10 +18,13 @@ class ComputerPlayer
     puts 'Computer is thinking...'
     guess = matches_in_guesses || valid_random_guess
     update_guess_arrays(guess)
+    pause
     puts "Guess is #{guess[0]}, #{guess[1]}"
     pause
     guess
   end
+
+  private
 
   def update_guess_arrays(guess)
     @guess_pair << guess
@@ -64,7 +67,7 @@ class ComputerPlayer
   end
 
   def pause
-    sleep(2)
+    sleep(1)
   end
 
   def random_guess
