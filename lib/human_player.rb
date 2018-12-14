@@ -10,6 +10,10 @@ class Player
     valid_guess(gets.chomp)
   end
 
+  def receive_board(board)
+    # Duck duck quack
+  end
+
   private
 
   def valid_guess(guess)
