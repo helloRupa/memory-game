@@ -14,9 +14,37 @@ class Board
     populate
   end
 
+  def render
+    print_header_row
+    @size.times do |row|
+      print "#{row} "
+      print_card_row(row)
+      puts
+    end
+  end
+
+  # Swap x, y to match traditional grids
+  def [](x, y)
+    @board[y][x]
+  end
+
+  def match?(guess_pair)
+    x1, y1 = guess_pair[0]
+    x2, y2 = guess_pair[1]
+    self[x1, y1].value == self[x2, y2].value
+  end
+
+  def board_complete?
+    @board.all? do |row|
+      row.all?(&:face_up)
+    end
+  end
+
+  private
+
   def valid_size(size)
-    unless size.even?
-      size += 1
+    unless size.even? && size >= 3
+      size = size < 3 ? 4 : size + 1
       puts "Board size updated to #{size}. Card count must be even."
     end
     size
@@ -56,36 +84,10 @@ class Board
       end
     end
   end
-
-  def render
-    print_header_row
-    @size.times do |row|
-      print "#{row} "
-      print_card_row(row)
-      puts
-    end
-  end
-
-  def match?(guess_pair)
-    x1, y1 = guess_pair[0]
-    x2, y2 = guess_pair[1]
-    self[x1, y1].value == self[x2, y2].value
-  end
-
-  # Swap x, y to match traditional grids
-  def [](x, y)
-    @board[y][x]
-  end
-
-  def board_complete?
-    @board.all? do |row|
-      row.all?(&:face_up)
-    end
-  end
 end
 
 if $PROGRAM_NAME == __FILE__
-  board = Board.new(3)
+  board = Board.new(1)
   board[3, 0].show
   board.board.each do |row|
     row.each(&:show)
